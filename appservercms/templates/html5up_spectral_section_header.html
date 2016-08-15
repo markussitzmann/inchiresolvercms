@@ -1,0 +1,9 @@
+{% load cms_tags %}
+<header class="major">
+<h2>{{ glossary.heading }}</h2>
+{{ glossary.text }}
+{% for plugin in instance.child_plugin_instances %}
+	{% render_plugin plugin %}
+{% endfor %}
+</header>
+

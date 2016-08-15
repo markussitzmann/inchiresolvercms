@@ -1,0 +1,14 @@
+{% load cms_tags %}
+<!-- special -->
+<section id="special" class="wrapper style1 special">
+<div class="inner">
+<header class="major">
+<h2>{{ heading }}</h2>
+{{ abstract|safe }}
+</header> 
+{% for plugin in instance.child_plugin_instances %}
+{% render_plugin plugin %}
+{% endfor %}
+</div>
+</section>
+<!-- end of special -->

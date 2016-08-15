@@ -1,0 +1,11 @@
+{% load i18n thumbnail cms_tags %}
+
+
+{% if post.author %}
+<a class="author" href="{% url 'djangocms_blog:posts-author' post.author.get_username %}">{% if post.author.get_full_name %}{{ post.author.get_full_name }}{% else %}{{ post.author }}{% endif %}</a>
+{% endif %}
+<time class="published" datetime="{{ post.date_published }}">{{ post.date_published|date:"DATE_FORMAT" }}</time>
+   
+
+
+    

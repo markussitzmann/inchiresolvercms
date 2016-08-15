@@ -1,0 +1,9 @@
+{% load cms_tags %}
+<section id="two" class="wrapper style3 fade-up">
+<div class="inner">
+{% for plugin in instance.child_plugin_instances %}
+	{% render_plugin plugin %}
+{% endfor %}
+</div>
+</section>
+

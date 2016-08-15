@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<section id="one" class="wrapper style2 spotlights">
+	{% for plugin in instance.child_plugin_instances %}
+	{% render_plugin plugin %}
+	{% endfor %}
+</section>
+
+

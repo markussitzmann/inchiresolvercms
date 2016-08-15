@@ -1,0 +1,51 @@
+{% load i18n thumbnail cms_tags %}
+
+<article id="post-{{ post.slug }}" class="post post-item">
+    <header>
+    	<div class="title">
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        </div>
+        <div class="meta">
+        {% block blog_meta %}
+            {% include "djangocms_blog/includes/blog_meta.html" %}
+        {% endblock %}
+        </div>
+    </header>
+    {% if image and post.main_image %}
+    <!--<div class="blog-visual">-->
+    {% thumbnail post.main_image post.thumbnail_options.size crop=post.thumbnail_options.crop upscale=post.thumbnail_options.upscale subject_location=post.main_image.subject_location as thumb %}
+    <a href="#" class="image featured"><img src="{{ thumb.url }}" alt="{{ post.main_image.default_alt_text }}" {% comment %} width="{{ thumb.width }}" height="{{ thumb.height }}"{% endcomment %} /></a>
+    <!--</div>-->
+    {% endif %}
+    <!--<div class="blog-lead">-->
+    {% if not TRUNCWORDS_COUNT %}
+        {% render_model post "abstract" %}
+    {% else %}
+        {% render_model post "abstract" "" "" 'truncatewords_html:TRUNCWORDS_COUNT'  %}
+    {% endif %}
+    <!--</div>-->
+    <!--<footer class="read-more">-->
+   	<footer>
+   		<ul class="actions">
+        <li><a class="button big" href="{{ post.get_absolute_url }}">{% trans "read more" %} &raquo;</a></li>
+        </ul>
+        
+        <ul class="stats">
+        {% if post.categories.exists %}
+        {% for category in post.categories.all %}
+            {% if category.slug %}
+                <li><a href="{% url 'djangocms_blog:posts-category' category=category.slug %}" class="icon fa-clone">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}</li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if post.tags.exists %}
+        {% for tag in post.tags.all %}
+            <li><a href="{% url 'djangocms_blog:posts-tagged' tag=tag.slug %}" class="icon fa-hashtag">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}</li>
+        {% endfor %}
+    {% endif %}
+    
+    </ul>
+        
+        
+    </footer>
+</article>
