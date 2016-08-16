@@ -104,9 +104,8 @@ DATABASES = {
 #DATABASE_ROUTERS = ['apps.dbrouter.AuthRouter',]
 
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
+# https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en'
 
@@ -120,15 +119,14 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join("/home/service", "static/")
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join("/home/cmsdb", "media/")
 MEDIA_URL = "/media/"
 
-# Add `finalware.context_processors.contextify` to your TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATES = [
      {
