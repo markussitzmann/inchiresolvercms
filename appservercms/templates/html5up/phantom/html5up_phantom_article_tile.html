@@ -1,0 +1,25 @@
+{% load cms_tags %}
+<section class="spotlight">
+    <div class="image">{% render_plugin instance.child_plugin_instances.0 %}</div>
+    <div class="content">
+        <h2>{{ heading }}</h2>
+        {{ abstract|safe }}
+    </div>
+</section>
+
+
+<article class="style1">
+    <span class="image">
+        <img src="images/pic01.jpg" alt=""/>
+    </span>
+    <a href="generic.html">
+        <h2>Magna</h2>
+        <div class="content">
+            <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+        </div>
+    </a>
+</article>
+
+{% for plugin in instance.child_plugin_instances %}
+	{% render_plugin plugin %}
+	{% endfor %}

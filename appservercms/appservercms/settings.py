@@ -134,6 +134,8 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "templates", "djangocms_blog"),
+            os.path.join(BASE_DIR, "templates", "html5up", "spectral"),
+            os.path.join(BASE_DIR, "templates", "html5up", "phantom"),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -155,6 +157,7 @@ TEMPLATES = [
 
 
 CMS_TEMPLATES = (
+    ('html5up_phantom_content.html', 'Html5Up Phantom Template'),
     ('html5up_spectral_content.html', 'Html5Up Spectral Template'),
     ('djangocms_blog/base.html', 'Django CMS Blog Template'),
 )
