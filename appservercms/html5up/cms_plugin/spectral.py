@@ -14,33 +14,9 @@ from djangocms_text_ckeditor.widgets import TextEditorWidget
 from .base import Html5UpPluginBase
 
 
-class Html5UpSpectralContainerPlugin(Html5UpPluginBase):
-    name = _("Html5Up Spectral Container")
-    parent_classes = None
-    require_parent = False
-    allow_children = True
-    render_template = 'html5up_spectral_container.html'
-    glossary_fields = (
-        PartialFormField('heading', widgets.TextInput(attrs={}), _("Heading content")),
-    )
-
-    @classmethod
-    def get_identifier(cls, instance):
-        # identifier = super(HtmlFiveUpContainerPlugin, cls).get_identifier(instance)
-        identifier = "Html5Up Container"
-        return identifier
-
-    def render(self, context, instance, placeholder):
-        context = super(Html5UpSpectralContainerPlugin, self).render(context, instance, placeholder)
-        context['heading'] = instance.glossary.get('heading', '')
-        return context
-
-
-
-
 class Html5UpSpectralBanner(Html5UpPluginBase):
     name = _("Html5Up Spectral Banner")
-    parent_classes = ('Html5UpSpectralContainerPlugin',)
+    parent_classes = ('Html5UpContainerPlugin',)
     require_parent = True
     allow_children = True
     render_template = 'html5up_spectral_banner.html'
@@ -69,7 +45,7 @@ class Html5UpSpectralBanner(Html5UpPluginBase):
 
 class Html5UpSpectralSpecial(Html5UpPluginBase):
     name = _("Html5Up Spectral Special")
-    parent_classes = ('Html5UpSpectralContainerPlugin',)
+    parent_classes = ('Html5UpContainerPlugin',)
     require_parent = True
     allow_children = True
     render_template = 'html5up_spectral_special.html'
@@ -103,7 +79,7 @@ class Html5UpSpectralSpotlightsForm(ManageChildrenFormMixin, ModelForm):
 
 class Html5UpSpectralSpotlights(Html5UpPluginBase):
     name = _("Html5Up Spectral Spotlights")
-    parent_classes = ('Html5UpSpectralContainerPlugin',)
+    parent_classes = ('Html5UpContainerPlugin',)
     form = Html5UpSpectralSpotlightsForm
     require_parent = True
     allow_children = True
@@ -124,7 +100,7 @@ class Html5UpSpectralSpotlights(Html5UpPluginBase):
 
 class Html5UpSpectralSpotlight(Html5UpPluginBase):
     name = _("Html5Up Spectral Spotlight")
-    parent_classes = ('Html5UpSpectralSpotlights',)
+    parent_classes = ('Html5UpSpotlights',)
     require_parent = True
     allow_children = True
     alien_child_classes = True

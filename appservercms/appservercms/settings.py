@@ -134,6 +134,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "templates", "djangocms_blog"),
+            os.path.join(BASE_DIR, "templates", "html5up"),
             os.path.join(BASE_DIR, "templates", "html5up", "spectral"),
             os.path.join(BASE_DIR, "templates", "html5up", "phantom"),
         ],
@@ -166,7 +167,6 @@ CMSPLUGIN_CASCADE_PLUGINS = (
     'cmsplugin_cascade.generic',
     'cmsplugin_cascade.bootstrap3',
     'html5up',
-    #'creature',
 )
 
 
