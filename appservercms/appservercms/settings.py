@@ -95,8 +95,8 @@ WSGI_APPLICATION = 'appservercms.wsgi.application'
 DATABASES = {
     'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-            'NAME': os.environ['POSTGRES_CMSDB_USER'],                    
-            'USER':  os.environ['POSTGRES_CMSDB_USER'],
+            'NAME': 'appserver',
+            'USER':  'appserver',
             'PASSWORD': os.environ['POSTGRES_CMSDB_PASSWORD'],
             'HOST': os.environ['POSTGRES_CMSDB_HOST'],                      
             'PORT': 5432},
@@ -124,7 +124,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join("/home/service", "static/")
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join("/home/cmsdb", "media/")
+MEDIA_ROOT = os.path.join("/home/appserver/media/cmsdb/")
 MEDIA_URL = "/media/"
 
 
