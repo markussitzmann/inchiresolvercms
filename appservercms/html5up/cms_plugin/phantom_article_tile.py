@@ -81,7 +81,6 @@ class TestImagePlugin(LinkPluginBase, Html5UpPluginBase):
             label=_('Alternative Description'),
             help_text=_("Textual description of the image added to the 'alt' tag of the <img> element."),
         ),
-    ) + getattr(LinkPluginBase, 'glossary_fields', ()) + (
         PartialFormField('image-shapes',
             widgets.CheckboxSelectMultiple(choices=SHAPE_CHOICES),
             label=_("Image Shapes"),
