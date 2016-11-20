@@ -1,8 +1,0 @@
-{% load cms_tags %}
-<section id="intro" class="wrapper style1 fullscreen fade-up">
-	<div class="inner">
-	{% for plugin in instance.child_plugin_instances %}
-	{% render_plugin plugin %}
-	{% endfor %}
-	</div>
-</section>

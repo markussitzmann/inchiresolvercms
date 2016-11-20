@@ -11,6 +11,12 @@ RUN ln -s /home/service/supervisord.conf /etc/supervisor/conf.d/
 
 RUN CONDA_PY=35 pip install -r /home/service/requirements.txt
 
+WORKDIR /opt/appserver/
+
+RUN git clone https://github.com/markussitzmann/wagtail_blog.git wagtail-blog
+WORKDIR /opt/appserver/wagtail-blog
+RUN python setup.py install
+
 RUN if [ -d /home/service/project_template/ ]; then cp -r /home/service/project_template/ /tmp; fi && \
 	cp -r /home/service/uwsgi/ /tmp && \
 	cp /home/service/Dockerfile /tmp && \

@@ -14,7 +14,7 @@ services:
      networks:
       - appserver_net
      environment:
-      - DJANGO_SETTINGS_MODULE=appservercms.settings
+      - DJANGO_SETTINGS_MODULE=appservercms.settings.dev
       - PYTHONPATH=/home/service:/home/service/appservercms
       - VIRTUAL_HOST=${SERVICE_HOSTNAME}
       - DJANGO_HOSTNAME=${SERVICE_HOSTNAME}
