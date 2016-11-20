@@ -10,4 +10,5 @@ lxml
 six
 wagtail
 wagtail-blog
+elasticsearch
 django-finalware
