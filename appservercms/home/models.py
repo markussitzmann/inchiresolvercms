@@ -28,7 +28,7 @@ class TileBlock(blocks.StructBlock):
 
     class Meta:
         icon = "placeholder"
-        template = "stream/tile_block.html"
+        template = "home/tile_block.html"
 
 
 class StreamPage(Page):
