@@ -1,0 +1,18 @@
+{% extends "editorial/editorial-base.html" %}
+
+{% block content %}
+<div id="wrapper">
+
+    {% block main %}
+    <div id="main">
+        <div class="inner">
+            {% block main-content %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block sidebar %}{% endblock %}
+
+</div>
+{% endblock %}
+

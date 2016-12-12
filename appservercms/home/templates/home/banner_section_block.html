@@ -1,0 +1,17 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section id="banner">
+    <div class="content">
+        <header>
+            <h1>{{ value.heading }}<br/>{{ value.headingline2 }}</h1>
+            <p>{{ value.headingtext }}</p>
+        </header>
+        <p>{{ value.content }}</p>
+        <ul class="actions">
+            <li><a href="#" class="button big">Learn More</a></li>
+        </ul>
+    </div>
+    <span class="image object">
+        {% image value.image max-360x360 %}
+    </span>
+</section>
