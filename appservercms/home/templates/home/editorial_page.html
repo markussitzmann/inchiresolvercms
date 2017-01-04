@@ -9,8 +9,8 @@
         {% socialmedialinks %}
     </header>
 
-    {% for block in page.section_stream %}
-    {{ block }}
+    {% for banner in page.banners.all %}
+    {%  include "home/banner_block.html" %}
     {%  endfor %}
 
 
