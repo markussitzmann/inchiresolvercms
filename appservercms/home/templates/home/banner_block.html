@@ -3,15 +3,15 @@
 <section id="banner">
     <div class="content">
         <header>
-            <h1>{{ value.heading }}<br/>{{ value.headingline2 }}</h1>
-            <p>{{ value.headingtext }}</p>
+            <h1>{{ value.heading }}<br/> {{ value.heading_line2 }}</h1>
+            <p>{{ value.abstract }}</p>
         </header>
-        <p>{{ value.content }}</p>
+        <p>{{ value.content|richtext }}</p>
         <ul class="actions">
             <li><a href="#" class="button big">Learn More</a></li>
         </ul>
     </div>
     <span class="image object">
-        {% image value.image max-360x360 %}
+        {% image value.image max-1024x682 %}
     </span>
 </section>

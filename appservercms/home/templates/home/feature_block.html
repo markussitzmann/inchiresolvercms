@@ -1,0 +1,12 @@
+{% load wagtailcore_tags %}
+
+<section>
+    <header class="major">
+        <h2>{{ value.heading }}</h2>
+    </header>
+    <div class="features">
+        {% for feature in value.features %}
+            {%  include_block feature %}
+        {%  endfor %}
+    </div>
+</section>

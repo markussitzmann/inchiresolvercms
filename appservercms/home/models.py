@@ -12,34 +12,35 @@ from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
 
-class TileBlock(blocks.StructBlock):
-    style = blocks.ChoiceBlock(choices=[
-        ('style1', 'Style1'),
-        ('style2', 'Style2'),
-        ('style3', 'Style3'),
-        ('style4', 'Style4'),
-        ('style5', 'Style5'),
-    ])
+class BannerBlock(blocks.StructBlock):
     heading = blocks.CharBlock(required=True)
-    content = blocks.RichTextBlock()
-    image = ImageChooserBlock(required=True)
-    url = blocks.URLBlock()
-
-    class Meta:
-        icon = "placeholder"
-        template = "home/tile_block.html"
-
-
-class BannerSectionBlock(blocks.StructBlock):
-    heading = blocks.CharBlock(required=True)
-    headingline2 = blocks.CharBlock()
-    headingtext = blocks.CharBlock()
-    content = blocks.RichTextBlock()
+    heading_line2 = blocks.CharBlock(required=False, label="Heading, 2nd line")
+    abstract = blocks.CharBlock(required=False)
+    content = blocks.RichTextBlock(required=False)
     image = ImageChooserBlock(required=True)
 
     class Meta:
         icon = "placeholder"
-        template = "home/banner_section_block.html"
+        template = "home/banner_block.html"
+
+
+class FeatureArticleBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(default="")
+    content = blocks.RichTextBlock()
+    icon = blocks.CharBlock(default="", label="Icon")
+
+    class Meta:
+        template = "home/feature_article_block.html"
+
+
+class FeatureBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(required=True)
+    features = blocks.ListBlock(FeatureArticleBlock())
+
+    class Meta:
+        icon = "placeholder"
+        template = "home/feature_block.html"
+        form_template = "home/form.html"
 
 
 class HomePage(Page):
@@ -47,8 +48,9 @@ class HomePage(Page):
     headersubtitle = models.CharField(max_length=255, blank=True, default="", verbose_name="Header Subtitle")
     author = models.CharField(max_length=255)
     date = models.DateField("Post date")
-    sectionstream = StreamField([
-        ('banner', BannerSectionBlock())
+    section_stream = StreamField([
+        ('banner', BannerBlock()),
+        ('features', FeatureBlock()),
     ])
 
     content_panels = Page.content_panels + [
@@ -62,7 +64,7 @@ class HomePage(Page):
         ),
         FieldPanel('author'),
         FieldPanel('date'),
-        StreamFieldPanel('sectionstream'),
+        StreamFieldPanel('section_stream'),
     ]
 
 

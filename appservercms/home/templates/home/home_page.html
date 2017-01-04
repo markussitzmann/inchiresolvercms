@@ -9,6 +9,9 @@
         {% socialmedialinks %}
     </header>
 
-    {{ page.sectionstream }}
+    {% for block in page.section_stream %}
+    {{ block }}
+    {%  endfor %}
+
 
 {% endblock %}
