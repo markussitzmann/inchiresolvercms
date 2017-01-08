@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.db import models
-from django.db.models import CharField, DateField, URLField
+from django.db.models import CharField, DateField, URLField, BooleanField
 from django.db.models import ForeignKey
 from django.utils.encoding import python_2_unicode_compatible
 from modelcluster.fields import ParentalKey
@@ -38,28 +38,50 @@ from wagtail.wagtailsnippets.models import register_snippet
 
 
 class EditorialPage(Page):
-    headertitle = CharField(max_length=255, verbose_name="Heading")
-    headersubtitle = CharField(max_length=255, blank=True, default="", verbose_name="Subtitle")
+    header_title = CharField(max_length=255, verbose_name="Heading")
+    header_subtitle = CharField(max_length=255, blank=True, default="", verbose_name="Subtitle")
+    banner_display = BooleanField(default=True)
+    banner_heading = CharField(max_length=255, blank=True, default="")
+    banner_heading_line2 = CharField(max_length=255, blank="True", default="", verbose_name="Headling, 2nd line")
+    banner_abstract = CharField(max_length=4096, blank="True", default="")
+    banner_text = RichTextField(blank="True")
+    banner_image = models.ForeignKey('wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     author = CharField(max_length=255)
     date = DateField("Post date")
-    # section_stream = StreamField([
-    #     ('banner', BannerBlock()),
-    #     ('features', FeatureBlock()),
-    # ])
+
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                FieldPanel('headertitle'),
-                FieldPanel('headersubtitle'),
+                FieldPanel('header_title'),
+                FieldPanel('header_subtitle'),
                 InlinePanel('social_media_link_placements', label="Social Media Links"),
             ],
             heading="Header",
         ),
-        InlinePanel('banners', label="Banners"),
-        FieldPanel('author'),
-        FieldPanel('date')
-
+        MultiFieldPanel(
+            [
+                FieldPanel('banner_display'),
+                FieldPanel('banner_heading'),
+                FieldPanel('banner_heading_line2'),
+                FieldPanel('banner_abstract'),
+                FieldPanel('banner_text'),
+                ImageChooserPanel('banner_image')
+            ],
+            heading="Banner",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('author'),
+                FieldPanel('date')
+            ],
+            heading="Meta",
+        )
         # StreamFieldPanel('section_stream'),
     ]
 
@@ -131,23 +153,40 @@ class EditorialSocialMediaLinkPlacement(Orderable, models.Model):
         return self.page.title + " -> " + self.social_media_link.name
 
 
-# @register_snippet
-# @python_2_unicode_compatible
-# class ActionButton(models.Model):
-#     SIZE_CHOICES = (
-#         ('', 'Default'),
-#         ('small', 'Small'),
-#         ('big', 'Big'),
-#     )
-#
-#     name = CharField(max_length=255)
-#     size = CharField(max_length=25, choices=SIZE_CHOICES, default="")
-#     icon = CharField(max_length=25)
-#     url = URLField()
-#
-#     panels = [
-#         SnippetChooserPanel('Action Button')
-#     ]
-#
-#     def __str__(self):
-#         return self.name
+@register_snippet
+@python_2_unicode_compatible
+class EditorialActionButton(models.Model):
+    SIZE_CHOICES = (
+        ('', 'Default'),
+        ('small', 'Small'),
+        ('big', 'Big'),
+    )
+
+    name = CharField(max_length=255)
+    size = CharField(max_length=25, choices=SIZE_CHOICES, default="")
+    icon = CharField(max_length=25)
+    url = URLField()
+
+    panels = [
+        SnippetChooserPanel('Action Button')
+    ]
+
+    def __str__(self):
+        return self.name
+
+
+class EditorialActionButtonPlacement(Orderable, models.Model):
+    page = ParentalKey('EditorialPage', related_name='action_button_placements')
+    action_button = ForeignKey(
+        'EditorialActionButton',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
+
+    panels = [
+        SnippetChooserPanel('action_button')
+    ]
+
+    def __str__(self):
+        return self.page.title + " -> " + self.action_button.name
