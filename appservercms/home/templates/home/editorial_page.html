@@ -1,12 +1,12 @@
 {%  extends "editorial/editorial-content.html" %}
-{% load wagtailcore_tags wagtailimages_tags social_media_links %}
+{% load wagtailcore_tags wagtailimages_tags social_media_links action_buttons %}
 
 
 {% block main-content %}
 
     <header id="header">
         <a href="index.html" class="logo"><strong>{{  page.header_title }} </strong>{{ page.header_subtitle }}</a>
-        {% socialmedialinks %}
+        {% social_media_links %}
     </header>
 
     {%  if page.banner_display %}
@@ -17,14 +17,37 @@
             <p>{{ page.banner_abstract }}</p>
         </header>
         <p>{{ page.banner_content|richtext }}</p>
-        <ul class="actions">
-            <li><a href="#" class="button big">Learn More</a></li>
-        </ul>
+
+        {% action_buttons %}
+
     </div>
     <span class="image object">
         {% image page.banner_image max-1024x682 %}
     </span>
     </section>
     {%  endif %}
+
+    {%  if page.feature_display %}
+    <section>
+        <header class="major">
+            <h2>{{ page.feature_heading }}</h2>
+        </header>
+        <div class="features">
+        {%  for article in page.feature_articles.all %}
+            <article>
+                <span class="icon {{ article.feature_icon }}"></span>
+                <div class="content">
+                    <h3>{{ article.feature_article_heading }}</h3>
+                    <p>{{ article.feature_text }}</p>
+                </div>
+            </article>
+        {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+
+    {{ page.featuers }}
+
 
 {% endblock %}

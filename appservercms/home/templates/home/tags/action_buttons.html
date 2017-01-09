@@ -1,6 +1,5 @@
 <ul class="icons">
     {% for button in buttons %}
-        <li><a href="{{ button.url }}" class="icon {{ button.icon }}"><span class="label">{{ link.name }}</span></a></li>
+        <li><a href="{{ button.url }}" class="button {{ button.size }} icon {{ button.icon }}">{{ button.name }}</a></li>
     {% endfor %}
 </ul>
-

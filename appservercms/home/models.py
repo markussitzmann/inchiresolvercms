@@ -7,6 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from modelcluster.fields import ParentalKey
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailcore import blocks
+from wagtail.wagtailcore.blocks import ListBlock
 from wagtail.wagtailcore.fields import StreamField, RichTextField
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailimages.blocks import ImageChooserBlock
@@ -18,13 +19,7 @@ from wagtail.wagtailsnippets.models import register_snippet
 
 
 
-# class FeatureArticleBlock(blocks.StructBlock):
-#     heading = blocks.CharBlock(default="")
-#     content = blocks.RichTextBlock()
-#     icon = blocks.CharBlock(default="", label="Icon")
-#
-#     class Meta:
-#         template = "home/feature_article_block.html"
+
 
 
 # class FeatureBlock(blocks.StructBlock):
@@ -49,11 +44,11 @@ class EditorialPage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
-    )
+        related_name='+')
+    feature_display = BooleanField(default=True)
+    feature_heading = CharField(max_length=255, blank=True, default="")
     author = CharField(max_length=255)
     date = DateField("Post date")
-
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -71,9 +66,18 @@ class EditorialPage(Page):
                 FieldPanel('banner_heading_line2'),
                 FieldPanel('banner_abstract'),
                 FieldPanel('banner_text'),
-                ImageChooserPanel('banner_image')
+                ImageChooserPanel('banner_image'),
+                InlinePanel('action_button_placements', label="Buttons")
             ],
             heading="Banner",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('feature_display'),
+                FieldPanel('feature_heading'),
+                InlinePanel('feature_articles', label="Feature Articles")
+            ],
+            heading="Features",
         ),
         MultiFieldPanel(
             [
@@ -82,30 +86,42 @@ class EditorialPage(Page):
             ],
             heading="Meta",
         )
-        # StreamFieldPanel('section_stream'),
     ]
 
 
-class EditorialPageBanner(Orderable):
-    page = ParentalKey('EditorialPage', related_name='banners')
-    heading = CharField(max_length=255)
-    heading_line2 = CharField(max_length=255, blank="True", verbose_name="Headling, 2nd line")
-    abstract = CharField(max_length=4096, blank="True")
-    content = RichTextField(blank="True")
-    image = models.ForeignKey('wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
+class FeatureArticle(models.Model):
+    feature_article_heading = CharField(max_length=255, blank=True, default="")
+    feature_text = RichTextField(blank="True")
+    feature_icon = CharField(max_length=25, blank="True", default="")
 
-    panels = [
-        FieldPanel('heading'),
-        FieldPanel('heading_line2'),
-        FieldPanel('abstract'),
-        FieldPanel('content'),
-        ImageChooserPanel('image')
-    ]
+    class Meta:
+        abstract = True
+
+
+class EditorialFeatureArticle(Orderable, FeatureArticle):
+    page = ParentalKey('home.EditorialPage', related_name='feature_articles')
+
+
+# class EditorialPageBanner(Orderable):
+#     page = ParentalKey('EditorialPage', related_name='banners')
+#     heading = CharField(max_length=255)
+#     heading_line2 = CharField(max_length=255, blank="True", verbose_name="Headling, 2nd line")
+#     abstract = CharField(max_length=4096, blank="True")
+#     content = RichTextField(blank="True")
+#     image = models.ForeignKey('wagtailimages.Image',
+#         null=True,
+#         blank=True,
+#         on_delete=models.SET_NULL,
+#         related_name='+'
+#     )
+#
+#     panels = [
+#         FieldPanel('heading'),
+#         FieldPanel('heading_line2'),
+#         FieldPanel('abstract'),
+#         FieldPanel('content'),
+#         ImageChooserPanel('image')
+#     ]
 
 
 @register_snippet
@@ -163,12 +179,15 @@ class EditorialActionButton(models.Model):
     )
 
     name = CharField(max_length=255)
-    size = CharField(max_length=25, choices=SIZE_CHOICES, default="")
+    size = CharField(max_length=25, choices=SIZE_CHOICES, blank=True, default="")
     icon = CharField(max_length=25)
     url = URLField()
 
     panels = [
-        SnippetChooserPanel('Action Button')
+        FieldPanel('name'),
+        FieldPanel('size'),
+        FieldPanel('url'),
+        FieldPanel('icon'),
     ]
 
     def __str__(self):
