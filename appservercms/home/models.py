@@ -16,22 +16,6 @@ from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
 
-
-
-
-
-
-
-# class FeatureBlock(blocks.StructBlock):
-#     heading = blocks.CharBlock(required=True)
-#     features = blocks.ListBlock(FeatureArticleBlock())
-#
-#     class Meta:
-#         icon = "placeholder"
-#         template = "home/feature_block.html"
-#         form_template = "home/form.html"
-
-
 class EditorialPage(Page):
     header_title = CharField(max_length=255, verbose_name="Heading")
     header_subtitle = CharField(max_length=255, blank=True, default="", verbose_name="Subtitle")
@@ -47,6 +31,10 @@ class EditorialPage(Page):
         related_name='+')
     feature_display = BooleanField(default=True)
     feature_heading = CharField(max_length=255, blank=True, default="")
+    # features per relationship
+    post_display = BooleanField(default=True)
+    post_heading = CharField(max_length=255, blank=True, default="")
+    # post per relationship
     author = CharField(max_length=255)
     date = DateField("Post date")
 
@@ -81,6 +69,15 @@ class EditorialPage(Page):
         ),
         MultiFieldPanel(
             [
+                FieldPanel('post_display'),
+                FieldPanel('post_heading'),
+                InlinePanel('post_articles', label="Post Articles"),
+                InlinePanel('action_button_placements', label="Buttons")
+            ],
+            heading="Posts",
+        ),
+        MultiFieldPanel(
+            [
                 FieldPanel('author'),
                 FieldPanel('date')
             ],
@@ -89,39 +86,32 @@ class EditorialPage(Page):
     ]
 
 
-class FeatureArticle(models.Model):
-    feature_article_heading = CharField(max_length=255, blank=True, default="")
-    feature_text = RichTextField(blank="True")
-    feature_icon = CharField(max_length=25, blank="True", default="")
+class Article(models.Model):
+    heading = CharField(max_length=255, blank=True, default="")
+    text = RichTextField(blank="True")
+    icon = CharField(max_length=25, blank="True", default="")
 
     class Meta:
         abstract = True
 
 
-class EditorialFeatureArticle(Orderable, FeatureArticle):
+class EditorialFeatureArticle(Orderable, Article):
     page = ParentalKey('home.EditorialPage', related_name='feature_articles')
 
 
-# class EditorialPageBanner(Orderable):
-#     page = ParentalKey('EditorialPage', related_name='banners')
-#     heading = CharField(max_length=255)
-#     heading_line2 = CharField(max_length=255, blank="True", verbose_name="Headling, 2nd line")
-#     abstract = CharField(max_length=4096, blank="True")
-#     content = RichTextField(blank="True")
-#     image = models.ForeignKey('wagtailimages.Image',
-#         null=True,
-#         blank=True,
-#         on_delete=models.SET_NULL,
-#         related_name='+'
-#     )
-#
-#     panels = [
-#         FieldPanel('heading'),
-#         FieldPanel('heading_line2'),
-#         FieldPanel('abstract'),
-#         FieldPanel('content'),
-#         ImageChooserPanel('image')
-#     ]
+class EditorialPostArticle(Orderable, Article):
+    page = ParentalKey('home.EditorialPage', related_name='post_articles')
+    image = models.ForeignKey('wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
+
+    panels = [
+        FieldPanel('heading'),
+        FieldPanel('text'),
+        ImageChooserPanel('image'),
+    ]
 
 
 @register_snippet

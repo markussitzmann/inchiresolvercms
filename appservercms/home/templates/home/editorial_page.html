@@ -16,7 +16,7 @@
             <h1>{{ page.banner_heading }}<br/> {{ page.banner_heading_line2 }}</h1>
             <p>{{ page.banner_abstract }}</p>
         </header>
-        <p>{{ page.banner_content|richtext }}</p>
+        <p>{{ page.banner_text|richtext }}</p>
 
         {% action_buttons %}
 
@@ -35,10 +35,10 @@
         <div class="features">
         {%  for article in page.feature_articles.all %}
             <article>
-                <span class="icon {{ article.feature_icon }}"></span>
+                <span class="icon {{ article.icon }}"></span>
                 <div class="content">
-                    <h3>{{ article.feature_article_heading }}</h3>
-                    <p>{{ article.feature_text }}</p>
+                    <h3>{{ article.heading }}</h3>
+                    <p>{{ article.text }}</p>
                 </div>
             </article>
         {% endfor %}
@@ -46,8 +46,23 @@
     </section>
     {% endif %}
 
-
-    {{ page.featuers }}
+    {%  if page.post_display %}
+    <section>
+        <header class="major">
+            <h2>{{ page.post_heading }}</h2>
+        </header>
+        <div class="posts">
+        {%  for article in page.post_articles.all %}
+            <article>
+                <a href="#" class="image">{% image article.image max-400x400 %}</a>
+                <h3>{{ article.heading }}</h3>
+                <p>{{ article.text|richtext }}</p>
+                {% action_buttons %}
+            </article>
+        {% endfor %}
+        </div>
+    </section>
+    {% endif %}
 
 
 {% endblock %}
