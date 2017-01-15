@@ -106,11 +106,17 @@ class EditorialPostArticle(Orderable, Article):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+')
+    button = models.ForeignKey('home.EditorialActionButton',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
 
     panels = [
         FieldPanel('heading'),
         FieldPanel('text'),
         ImageChooserPanel('image'),
+        SnippetChooserPanel('button')
     ]
 
 

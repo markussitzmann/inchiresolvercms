@@ -1,5 +1,5 @@
 {%  extends "editorial/editorial-content.html" %}
-{% load wagtailcore_tags wagtailimages_tags social_media_links action_buttons %}
+{% load wagtailcore_tags wagtailimages_tags social_media_links action_buttons action_button %}
 
 
 {% block main-content %}
@@ -57,7 +57,7 @@
                 <a href="#" class="image">{% image article.image max-400x400 %}</a>
                 <h3>{{ article.heading }}</h3>
                 <p>{{ article.text|richtext }}</p>
-                {% action_buttons %}
+                {% action_button article.button %}
             </article>
         {% endfor %}
         </div>
