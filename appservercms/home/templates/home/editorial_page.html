@@ -1,5 +1,5 @@
 {%  extends "editorial/editorial-content.html" %}
-{% load wagtailcore_tags wagtailimages_tags social_media_links action_buttons action_button %}
+{% load wagtailcore_tags wagtailimages_tags social_media_links action_button %}
 
 
 {% block main-content %}
@@ -18,7 +18,7 @@
         </header>
         <p>{{ page.banner_text|richtext }}</p>
 
-        {% action_buttons %}
+        {% action_button page.banner_button %}
 
     </div>
     <span class="image object">
@@ -38,7 +38,8 @@
                 <span class="icon {{ article.icon }}"></span>
                 <div class="content">
                     <h3>{{ article.heading }}</h3>
-                    <p>{{ article.text }}</p>
+                    <p>{{ article.text|richtext }}</p>
+                    {% action_button article.button %}
                 </div>
             </article>
         {% endfor %}

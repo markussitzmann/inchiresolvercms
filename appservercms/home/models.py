@@ -19,7 +19,7 @@ from wagtail.wagtailsnippets.models import register_snippet
 class EditorialPage(Page):
     header_title = CharField(max_length=255, verbose_name="Heading")
     header_subtitle = CharField(max_length=255, blank=True, default="", verbose_name="Subtitle")
-    banner_display = BooleanField(default=True)
+    banner_display = BooleanField(default=False)
     banner_heading = CharField(max_length=255, blank=True, default="")
     banner_heading_line2 = CharField(max_length=255, blank="True", default="", verbose_name="Headling, 2nd line")
     banner_abstract = CharField(max_length=4096, blank="True", default="")
@@ -29,10 +29,15 @@ class EditorialPage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+')
-    feature_display = BooleanField(default=True)
+    banner_button = models.ForeignKey('home.EditorialActionButton',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
+    feature_display = BooleanField(default=False)
     feature_heading = CharField(max_length=255, blank=True, default="")
     # features per relationship
-    post_display = BooleanField(default=True)
+    post_display = BooleanField(default=False)
     post_heading = CharField(max_length=255, blank=True, default="")
     # post per relationship
     author = CharField(max_length=255)
@@ -55,7 +60,7 @@ class EditorialPage(Page):
                 FieldPanel('banner_abstract'),
                 FieldPanel('banner_text'),
                 ImageChooserPanel('banner_image'),
-                InlinePanel('action_button_placements', label="Buttons")
+                SnippetChooserPanel('banner_button')
             ],
             heading="Banner",
         ),
@@ -72,7 +77,6 @@ class EditorialPage(Page):
                 FieldPanel('post_display'),
                 FieldPanel('post_heading'),
                 InlinePanel('post_articles', label="Post Articles"),
-                InlinePanel('action_button_placements', label="Buttons")
             ],
             heading="Posts",
         ),
@@ -97,6 +101,18 @@ class Article(models.Model):
 
 class EditorialFeatureArticle(Orderable, Article):
     page = ParentalKey('home.EditorialPage', related_name='feature_articles')
+    button = models.ForeignKey('home.EditorialActionButton',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
+
+    panels = [
+        FieldPanel('heading'),
+        FieldPanel('text'),
+        FieldPanel('icon'),
+        SnippetChooserPanel('button')
+    ]
 
 
 class EditorialPostArticle(Orderable, Article):
@@ -175,9 +191,9 @@ class EditorialActionButton(models.Model):
     )
 
     name = CharField(max_length=255)
+    url = URLField(default="")
     size = CharField(max_length=25, choices=SIZE_CHOICES, blank=True, default="")
-    icon = CharField(max_length=25)
-    url = URLField()
+    icon = CharField(max_length=25, blank=True, default="")
 
     panels = [
         FieldPanel('name'),
@@ -187,21 +203,23 @@ class EditorialActionButton(models.Model):
     ]
 
     def __str__(self):
-        return self.name
+        r = self.name + " (" + self.url + ")"
+        if self.size: r = r + ", " + self.size
+        return r
 
 
-class EditorialActionButtonPlacement(Orderable, models.Model):
-    page = ParentalKey('EditorialPage', related_name='action_button_placements')
-    action_button = ForeignKey(
-        'EditorialActionButton',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+')
-
-    panels = [
-        SnippetChooserPanel('action_button')
-    ]
-
-    def __str__(self):
-        return self.page.title + " -> " + self.action_button.name
+# class EditorialActionButtonPlacement(Orderable, models.Model):
+#     page = ParentalKey('EditorialPage', related_name='action_button_placements')
+#     action_button = ForeignKey(
+#         'EditorialActionButton',
+#         null=True,
+#         blank=True,
+#         on_delete=models.SET_NULL,
+#         related_name='+')
+#
+#     panels = [
+#         SnippetChooserPanel('action_button')
+#     ]
+#
+#     def __str__(self):
+#         return self.page.title + " -> " + self.action_button.name
