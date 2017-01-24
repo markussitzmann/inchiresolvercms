@@ -1,0 +1,16 @@
+{% load wagtailcore_tags menu_tags %}
+{% get_site_root as site_root %}
+
+<nav id="menu">
+
+    <header class="major">
+        <h2>Menu</h2>
+    </header>
+
+    <ul>
+        {% for menuitem in menuitems %}
+            <li><a href="{% pageurl menuitem %}">{{ menuitem.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+</nav>

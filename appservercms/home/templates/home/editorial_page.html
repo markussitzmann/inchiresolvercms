@@ -1,5 +1,5 @@
 {%  extends "editorial/editorial-content.html" %}
-{% load wagtailcore_tags wagtailimages_tags social_media_links action_button %}
+{% load wagtailcore_tags wagtailimages_tags menu_tags social_media_links action_button %}
 
 
 {% block main-content %}
@@ -65,5 +65,29 @@
     </section>
     {% endif %}
 
+{% endblock %}
+
+
+{% block sidebar %}
+
+    <div id="sidebar">
+        <div class="inner">
+
+        <!-- Search -->
+            <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Search" />
+            </form>
+            </section>
+
+            {% get_site_root as site_root %}
+            {% top_menu parent=site_root calling_page=self %}
+
+            <footer id="footer">
+                <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+            </footer>
+
+        </div>
+    </div>
 
 {% endblock %}

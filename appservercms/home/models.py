@@ -208,18 +208,3 @@ class EditorialActionButton(models.Model):
         return r
 
 
-# class EditorialActionButtonPlacement(Orderable, models.Model):
-#     page = ParentalKey('EditorialPage', related_name='action_button_placements')
-#     action_button = ForeignKey(
-#         'EditorialActionButton',
-#         null=True,
-#         blank=True,
-#         on_delete=models.SET_NULL,
-#         related_name='+')
-#
-#     panels = [
-#         SnippetChooserPanel('action_button')
-#     ]
-#
-#     def __str__(self):
-#         return self.page.title + " -> " + self.action_button.name
