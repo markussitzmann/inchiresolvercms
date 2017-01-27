@@ -17,11 +17,14 @@ from wagtail.wagtailsnippets.models import register_snippet
 
 
 class EditorialPage(Page):
-    header_title = CharField(max_length=255, verbose_name="Heading")
-    header_subtitle = CharField(max_length=255, blank=True, default="", verbose_name="Subtitle")
+    header = models.ForeignKey('home.EditorialHeader',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
     banner_display = BooleanField(default=False)
     banner_heading = CharField(max_length=255, blank=True, default="")
-    banner_heading_line2 = CharField(max_length=255, blank="True", default="", verbose_name="Headling, 2nd line")
+    banner_heading_line2 = CharField(max_length=255, blank="True", default="", verbose_name="Heading, 2nd line")
     banner_abstract = CharField(max_length=4096, blank="True", default="")
     banner_text = RichTextField(blank="True")
     banner_image = models.ForeignKey('wagtailimages.Image',
@@ -46,8 +49,7 @@ class EditorialPage(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                FieldPanel('header_title'),
-                FieldPanel('header_subtitle'),
+                SnippetChooserPanel('header'),
                 InlinePanel('social_media_link_placements', label="Social Media Links"),
             ],
             heading="Header",
@@ -97,6 +99,23 @@ class Article(models.Model):
 
     class Meta:
         abstract = True
+
+@register_snippet
+@python_2_unicode_compatible
+class EditorialHeader(models.Model):
+    title = CharField(max_length=255)
+    subtitle = CharField(max_length=255)
+    url = URLField()
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('subtitle'),
+        FieldPanel('url'),
+    ]
+
+    def __str__(self):
+        r = self.title + " (" + self.subtitle + ")"
+        return r
 
 
 class EditorialFeatureArticle(Orderable, Article):
@@ -171,7 +190,7 @@ class EditorialSocialMediaLinkPlacement(Orderable, models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+')
+        related_name='social_media_link_placement')
 
     panels = [
         SnippetChooserPanel('social_media_link')

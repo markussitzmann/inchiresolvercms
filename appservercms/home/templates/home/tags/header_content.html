@@ -1,0 +1,5 @@
+{%  with header_content as header %}
+{% if header %}
+<a href="{{ header.url }}" class="logo"><strong>{{  header.title }} </strong>{{ header.subtitle }}</a>
+{%  endif %}
+{%  endwith %}

@@ -1,12 +1,12 @@
 {%  extends "editorial/editorial-content.html" %}
-{% load wagtailcore_tags wagtailimages_tags menu_tags social_media_links action_button %}
+{% load wagtailcore_tags wagtailimages_tags menu_tags social_media_links action_button header_content %}
 
 
 {% block main-content %}
 
     <header id="header">
-        <a href="index.html" class="logo"><strong>{{  page.header_title }} </strong>{{ page.header_subtitle }}</a>
-        {% social_media_links %}
+        {% header_content page.header %}
+        {% social_media_links page %}
     </header>
 
     {%  if page.banner_display %}
