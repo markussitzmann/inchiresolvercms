@@ -9,6 +9,10 @@
         {% social_media_links page %}
     </header>
 
+    {% get_site_root as site_root %}
+    {{ site_root }}
+
+
     {%  if page.banner_display %}
     <section id="banner">
     <div class="content">
@@ -81,7 +85,7 @@
             </section>
 
             {% get_site_root as site_root %}
-            {% top_menu parent=site_root calling_page=self %}
+            {% page_menu parent=site_root calling_page=self %}
 
             <footer id="footer">
                 <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>

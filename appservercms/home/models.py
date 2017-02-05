@@ -223,7 +223,8 @@ class EditorialActionButton(models.Model):
 
     def __str__(self):
         r = self.name + " (" + self.url + ")"
-        if self.size: r = r + ", " + self.size
+        if self.size:
+            r = r + ", " + self.size
         return r
 
 
