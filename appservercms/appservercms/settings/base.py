@@ -28,7 +28,6 @@ ALLOWED_HOSTS = ['localhost', 'green']
 
 INSTALLED_APPS = [
 
-    'home',
     'search',
 
     'wagtail.wagtailforms',
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
 
     'blog',
     'html5up',
+    'home',
 
     # last application to finalize things
     'finalware'
@@ -157,7 +157,7 @@ WAGTAIL_SITE_NAME = "inchiresolvercms"
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch2',
+        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch5',
         'URLS': ['http://cmsindex:9200'],
         'INDEX': 'wagtail',
         'TIMEOUT': 5,
