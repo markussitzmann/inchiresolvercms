@@ -161,10 +161,11 @@ WAGTAILSEARCH_BACKENDS = {
         'URLS': ['http://cmsindex:9200'],
         'INDEX': 'wagtail',
         'TIMEOUT': 5,
+        'AUTO_UPDATE': True,
     }
 }
 
-WAGTAILIMAGES_MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # i.e. 20MB
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 75 * 1024 * 1024  # i.e. 20MB
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash

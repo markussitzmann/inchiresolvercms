@@ -1,0 +1,5 @@
+<ul class="icons">
+    {% for link in links %}<li><a href="{{ link.url }}" class="icon {{ link.icon }}"><span class="label">{{ link.name }}</span></a></li>
+    {% endfor %}
+</ul>
+

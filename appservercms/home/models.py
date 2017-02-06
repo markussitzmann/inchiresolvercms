@@ -5,6 +5,7 @@ from django.db.models import CharField, DateField, URLField, BooleanField
 from django.db.models import ForeignKey
 from django.utils.encoding import python_2_unicode_compatible
 from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailcore.blocks import ListBlock
@@ -102,7 +103,7 @@ class Article(models.Model):
 
 @register_snippet
 @python_2_unicode_compatible
-class EditorialHeader(models.Model):
+class EditorialHeader(ClusterableModel, models.Model):
     title = CharField(max_length=255)
     subtitle = CharField(max_length=255)
     url = URLField()
@@ -111,6 +112,7 @@ class EditorialHeader(models.Model):
         FieldPanel('title'),
         FieldPanel('subtitle'),
         FieldPanel('url'),
+        InlinePanel('social_media_link_header_placements')
     ]
 
     def __str__(self):
@@ -181,6 +183,23 @@ class EditorialSocialMediaLink(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class EditorialHeaderSocialMediaLinkPlacement(Orderable, models.Model):
+    parent = ParentalKey('EditorialHeader', related_name='social_media_link_header_placements')
+    social_media_link = ForeignKey(
+        'EditorialSocialMediaLink',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='social_media_link_header_placement')
+
+    panels = [
+        SnippetChooserPanel('social_media_link')
+    ]
+
+    def __str__(self):
+        return self.page.title + " -> " + self.social_media_link.name
 
 
 class EditorialSocialMediaLinkPlacement(Orderable, models.Model):
