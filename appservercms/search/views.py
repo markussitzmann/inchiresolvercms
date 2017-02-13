@@ -8,6 +8,10 @@ from wagtail.wagtailsearch.models import Query
 
 
 def search(request):
+    """
+
+    :type request: object
+    """
     search_query = request.GET.get('query', None)
     page = request.GET.get('page', 1)
 

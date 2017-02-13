@@ -12,6 +12,7 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFie
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailsearch import index
 from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
@@ -43,6 +44,20 @@ class EditorialPage(Page):
     post_display = BooleanField(default=False)
     post_heading = CharField(max_length=255, blank=True, default="")
     # post per relationship
+
+    search_fields = Page.search_fields + [
+        index.SearchField('banner_heading'),
+        index.SearchField('banner_heading_line2'),
+        index.SearchField('banner_abstract'),
+        index.SearchField('banner_text'),
+
+        index.SearchField('feature_display'),
+        index.SearchField('feature_heading'),
+        index.RelatedFields('feature_articles', [
+            index.SearchField('heading'),
+            index.SearchField('text'),
+        ]),
+    ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(

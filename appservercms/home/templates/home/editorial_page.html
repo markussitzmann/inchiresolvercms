@@ -74,10 +74,11 @@
 
         <!-- Search -->
             <section id="search" class="alt">
-            <form method="post" action="#">
-                <input type="text" name="query" id="query" placeholder="Search" />
-            </form>
-            </section>
+                <form action="{% url 'search' %}" method="get">
+                    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                    {% comment %}<input type="submit" value="Search" class="button">{% endcomment %}
+                </form>
+             </section>
 
             {% get_site_root as site_root %}
             {% page_menu parent=site_root calling_page=self %}

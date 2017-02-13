@@ -1,17 +1,23 @@
-{% extends "base.html" %}
+{% extends "editorial/editorial-content.html" %}
 {% load static wagtailcore_tags %}
 
 {% block body_class %}template-searchresults{% endblock %}
 
 {% block title %}Search{% endblock %}
 
-{% block content %}
-    <h1>Search</h1>
+{% block main-content %}
 
-    <form action="{% url 'search' %}" method="get">
-        <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-        <input type="submit" value="Search" class="button">
-    </form>
+
+    <header id="header">
+    <h1>Search</h1>
+    </header>
+
+    <section id="search" class="alt">
+        <form action="{% url 'search' %}" method="get">
+            <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+            {% comment %}<input type="submit" value="Search" class="button">{% endcomment %}
+        </form>
+
 
     {% if search_results %}
         <ul>
@@ -35,4 +41,7 @@
     {% elif search_query %}
         No results found
     {% endif %}
+
+    </section>
+
 {% endblock %}
