@@ -1,9 +1,9 @@
-{% load social_media_links %}
+{% load social_media_link_tags %}
 {% with header_content as header %}
 {% if header %}
 <a href="{{ header.url }}" class="logo"><strong>{{  header.title }} </strong>{{ header.subtitle }}</a>
 
-{% social_media_header_links header %}
+{% header_social_media_links header %}
 
 {%  endif %}
 {%  endwith %}

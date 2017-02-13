@@ -1,17 +1,16 @@
 from __future__ import absolute_import, unicode_literals
 
+from datetime import datetime
+
 from django.db import models
 from django.db.models import CharField, DateField, URLField, BooleanField
 from django.db.models import ForeignKey
 from django.utils.encoding import python_2_unicode_compatible
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.wagtailcore import blocks
-from wagtail.wagtailcore.blocks import ListBlock
-from wagtail.wagtailcore.fields import StreamField, RichTextField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
@@ -44,14 +43,11 @@ class EditorialPage(Page):
     post_display = BooleanField(default=False)
     post_heading = CharField(max_length=255, blank=True, default="")
     # post per relationship
-    author = CharField(max_length=255)
-    date = DateField("Post date")
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
                 SnippetChooserPanel('header'),
-                InlinePanel('social_media_link_placements', label="Social Media Links"),
             ],
             heading="Header",
         ),
@@ -83,13 +79,6 @@ class EditorialPage(Page):
             ],
             heading="Posts",
         ),
-        MultiFieldPanel(
-            [
-                FieldPanel('author'),
-                FieldPanel('date')
-            ],
-            heading="Meta",
-        )
     ]
 
 
@@ -112,7 +101,7 @@ class EditorialHeader(ClusterableModel, models.Model):
         FieldPanel('title'),
         FieldPanel('subtitle'),
         FieldPanel('url'),
-        InlinePanel('social_media_link_header_placements')
+        InlinePanel('header_social_media_link_placements')
     ]
 
     def __str__(self):
@@ -186,13 +175,13 @@ class EditorialSocialMediaLink(models.Model):
 
 
 class EditorialHeaderSocialMediaLinkPlacement(Orderable, models.Model):
-    parent = ParentalKey('EditorialHeader', related_name='social_media_link_header_placements')
+    parent = ParentalKey('home.EditorialHeader', related_name='header_social_media_link_placements')
     social_media_link = ForeignKey(
         'EditorialSocialMediaLink',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='social_media_link_header_placement')
+        related_name='header_social_media_link_placement')
 
     panels = [
         SnippetChooserPanel('social_media_link')
