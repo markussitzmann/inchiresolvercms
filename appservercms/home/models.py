@@ -1,20 +1,28 @@
 from __future__ import absolute_import, unicode_literals
 
-from datetime import datetime
-
 from django.db import models
-from django.db.models import CharField, DateField, URLField, BooleanField
+from django.db.models import CharField, URLField, BooleanField
 from django.db.models import ForeignKey
 from django.utils.encoding import python_2_unicode_compatible
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.wagtailcore.fields import RichTextField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.wagtailcore.blocks import CharBlock, RichTextBlock, StructBlock
+from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailcore.models import Page, Orderable
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
+
+
+class GenericImageBlock(StructBlock):
+    image = ImageChooserBlock()
+
+    class Meta:
+        template = "home/generic_image_block.html"
+        icon = 'image'
 
 
 class EditorialPage(Page):
@@ -44,6 +52,12 @@ class EditorialPage(Page):
     post_display = BooleanField(default=False)
     post_heading = CharField(max_length=255, blank=True, default="")
     # post per relationship
+    generic_display = BooleanField(default=False)
+    generic_content = StreamField([
+        ('heading', CharBlock(classname="full title")),
+        ('paragraph', RichTextBlock()),
+        ('image', GenericImageBlock()),
+    ], blank=True, default="")
 
     search_fields = Page.search_fields + [
         index.SearchField('banner_heading'),
@@ -94,6 +108,13 @@ class EditorialPage(Page):
             ],
             heading="Posts",
         ),
+        MultiFieldPanel(
+            [
+                FieldPanel('generic_display'),
+                StreamFieldPanel('generic_content'),
+            ],
+            heading="Generic",
+        ),
     ]
 
 
@@ -105,18 +126,22 @@ class Article(models.Model):
     class Meta:
         abstract = True
 
+
+
+
+
 @register_snippet
 @python_2_unicode_compatible
 class EditorialHeader(ClusterableModel, models.Model):
     title = CharField(max_length=255)
     subtitle = CharField(max_length=255)
-    url = URLField()
+    url = URLField(blank=True, default="")
 
     panels = [
         FieldPanel('title'),
         FieldPanel('subtitle'),
         FieldPanel('url'),
-        InlinePanel('header_social_media_link_placements')
+        InlinePanel('header_social_media_link_placements', label="Social Media Links")
     ]
 
     def __str__(self):
@@ -249,5 +274,6 @@ class EditorialActionButton(models.Model):
         if self.size:
             r = r + ", " + self.size
         return r
+
 
 

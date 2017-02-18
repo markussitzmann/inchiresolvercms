@@ -64,6 +64,15 @@
     </section>
     {% endif %}
 
+
+    {%  if page.generic_display %}
+        <section>
+        {% for block in page.generic_content %}
+        {% include_block block %}
+        {% endfor %}
+        </section>
+    {% endif %}
+
 {% endblock %}
 
 
