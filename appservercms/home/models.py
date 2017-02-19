@@ -6,6 +6,7 @@ from django.db.models import ForeignKey
 from django.utils.encoding import python_2_unicode_compatible
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
+from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.wagtailcore.blocks import CharBlock, RichTextBlock, StructBlock
 from wagtail.wagtailcore.fields import RichTextField, StreamField
@@ -53,10 +54,12 @@ class EditorialPage(Page):
     post_heading = CharField(max_length=255, blank=True, default="")
     # post per relationship
     generic_display = BooleanField(default=False)
+    generic_headline = CharField(max_length=255, blank=True, default="")
     generic_content = StreamField([
         ('heading', CharBlock(classname="full title")),
         ('paragraph', RichTextBlock()),
         ('image', GenericImageBlock()),
+        ('table', TableBlock()),
     ], blank=True, default="")
 
     search_fields = Page.search_fields + [
@@ -111,6 +114,7 @@ class EditorialPage(Page):
         MultiFieldPanel(
             [
                 FieldPanel('generic_display'),
+                FieldPanel('generic_headline'),
                 StreamFieldPanel('generic_content'),
             ],
             heading="Generic",
@@ -125,9 +129,6 @@ class Article(models.Model):
 
     class Meta:
         abstract = True
-
-
-
 
 
 @register_snippet

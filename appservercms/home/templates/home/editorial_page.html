@@ -67,6 +67,9 @@
 
     {%  if page.generic_display %}
         <section>
+        <header class="main">
+            <h1>{{ page.generic_headline }}</h1>
+        </header>
         {% for block in page.generic_content %}
         {% include_block block %}
         {% endfor %}
