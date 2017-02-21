@@ -1,0 +1,17 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+<div class="row">
+    <div class="6u 12u$(small)">
+        {% for content in value.column1 %}
+            {% include_block content %}
+        {% endfor %}
+    </div>
+
+    <div class="6u 12u$(small)">
+       {% for content in value.column2 %}
+            {% include_block content %}
+        {% endfor %}
+     </div>
+
+</div>

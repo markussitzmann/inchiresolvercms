@@ -8,7 +8,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
-from wagtail.wagtailcore.blocks import CharBlock, RichTextBlock, StructBlock
+from wagtail.wagtailcore.blocks import CharBlock, RichTextBlock, StructBlock, ChoiceBlock, ListBlock, StreamBlock
 from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailimages.blocks import ImageChooserBlock
@@ -16,6 +16,30 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
+
+
+class GenericColumnContentBlock(StructBlock):
+    column_content = StreamBlock([
+        ('text', RichTextBlock()),
+        ('image', ImageChooserBlock())
+    ], label="x")
+
+    class Meta:
+        template = "home/generic_column_content_block.html"
+
+
+class GenericDoubleColumnBlock(StructBlock):
+    column1 = StreamBlock([
+        ('text', RichTextBlock()),
+        ('image', ImageChooserBlock())
+    ], classname="full")
+    column2 = StreamBlock([
+        ('text', RichTextBlock()),
+        ('image', ImageChooserBlock())
+    ], classname="full")
+
+    class Meta:
+        template = "home/generic_double_column_block.html"
 
 
 class GenericImageBlock(StructBlock):
@@ -60,6 +84,7 @@ class EditorialPage(Page):
         ('paragraph', RichTextBlock()),
         ('image', GenericImageBlock()),
         ('table', TableBlock()),
+        ('column2', GenericDoubleColumnBlock()),
     ], blank=True, default="")
 
     search_fields = Page.search_fields + [

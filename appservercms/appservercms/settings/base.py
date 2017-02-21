@@ -28,6 +28,7 @@ ALLOWED_HOSTS = ['localhost', 'green']
 
 INSTALLED_APPS = [
 
+    'adminextend',
     'search',
 
     'wagtail.wagtailforms',
