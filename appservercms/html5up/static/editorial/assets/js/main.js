@@ -95,7 +95,19 @@
 			// 			$sidebar.removeClass('inactive');
 			// 		});
 
-			$sidebar.addClass('inactive');
+			try {
+                if (localStorage.getItem('homepage-sidebar-inactive') === 'undefined' || localStorage.getItem('homepage-sidebar-inactive') === null) {
+                    $sidebar.addClass('inactive');
+                }
+                if (localStorage.getItem('homepage-sidebar-inactive') === 'true') {
+                    $sidebar.addClass('inactive');
+                }
+            } catch(err) {
+				$sidebar.addClass('inactive');
+			}
+			try {
+                localStorage.setItem('homepage-sidebar-inactive', $sidebar.hasClass('inactive'));
+            } catch(err) {}
 
 			// Hack: Workaround for Chrome/Android scrollbar position bug.
 				if (skel.vars.os == 'android'
@@ -116,7 +128,9 @@
 
 							// Toggle.
 								$sidebar.toggleClass('inactive');
-
+								try {
+                                    localStorage.setItem('homepage-sidebar-inactive', $sidebar.hasClass('inactive'));
+                                } catch(err) {}
 						});
 
 				}
@@ -145,6 +159,10 @@
 
 						// Hide sidebar.
 							$sidebar.addClass('inactive');
+							try {
+								localStorage.setItem('homepage-sidebar-inactive', $sidebar.hasClass('inactive'));
+							} catch(err) {}
+
 
 						// Redirect to href.
 							setTimeout(function() {
@@ -179,7 +197,9 @@
 
 						// Deactivate.
 							$sidebar.addClass('inactive');
-
+							try {
+								localStorage.setItem('homepage-sidebar-inactive', $sidebar.hasClass('inactive'));
+							} catch(err) {}
 					});
 
 			// Scroll lock.

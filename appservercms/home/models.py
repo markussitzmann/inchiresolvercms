@@ -28,18 +28,28 @@ class GenericColumnContentBlock(StructBlock):
         template = "home/generic_column_content_block.html"
 
 
-class GenericDoubleColumnBlock(StructBlock):
-    column1 = StreamBlock([
+class GenericColumnBlock:
+    stream_block_blocks = [
         ('text', RichTextBlock()),
         ('image', ImageChooserBlock())
-    ], classname="full")
-    column2 = StreamBlock([
-        ('text', RichTextBlock()),
-        ('image', ImageChooserBlock())
-    ], classname="full")
+    ]
+
+class GenericDoubleColumnBlock(StructBlock, GenericColumnBlock):
+    column1 = StreamBlock(GenericColumnBlock.stream_block_blocks)
+    column2 = StreamBlock(GenericColumnBlock.stream_block_blocks)
 
     class Meta:
         template = "home/generic_double_column_block.html"
+
+
+class GenericTripleColumnBlock(StructBlock, GenericColumnBlock):
+    column1 = StreamBlock(GenericColumnBlock.stream_block_blocks)
+    column2 = StreamBlock(GenericColumnBlock.stream_block_blocks)
+    column3 = StreamBlock(GenericColumnBlock.stream_block_blocks)
+
+    class Meta:
+        template = "home/generic_triple_column_block.html"
+
 
 
 class GenericImageBlock(StructBlock):
@@ -84,7 +94,8 @@ class EditorialPage(Page):
         ('paragraph', RichTextBlock()),
         ('image', GenericImageBlock()),
         ('table', TableBlock()),
-        ('column2', GenericDoubleColumnBlock()),
+        ('double_column', GenericDoubleColumnBlock()),
+        ('triple_column', GenericTripleColumnBlock()),
     ], blank=True, default="")
 
     search_fields = Page.search_fields + [
