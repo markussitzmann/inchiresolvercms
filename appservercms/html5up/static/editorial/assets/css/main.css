@@ -4062,3 +4062,29 @@
 			margin-top: 0;
 			padding-top: 0;
 		}
+
+/* My stuff */
+
+.richtext-image.left {
+	margin-right: 1em;
+	max-width: 100%;
+	height: auto;
+	float:left;
+}
+
+.richtext-image.right {
+	margin-left: 1em;
+	max-width: 100%;
+	height: auto;
+	float: right;
+}
+
+/*
+span.left {
+	float: left;
+}
+
+span.right {
+	float: right;
+}
+*/

@@ -18,20 +18,30 @@ from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
 
-class GenericColumnContentBlock(StructBlock):
-    column_content = StreamBlock([
-        ('text', RichTextBlock()),
-        ('image', ImageChooserBlock())
-    ], label="x")
+
+
+
+class GenericImageBlock(StructBlock):
+    template_type = ChoiceBlock(
+        choices=[
+            ('main', 'Main'),
+            ('fit', 'Fit'),
+            ('left', 'Left'),
+            ('right', 'Right'),
+        ]
+    )
+    wagtail_resize = CharBlock(max_length=25)
+    image = ImageChooserBlock()
 
     class Meta:
-        template = "home/generic_column_content_block.html"
+        template = "home/generic_image_block.html"
+        icon = 'image'
 
 
 class GenericColumnBlock:
     stream_block_blocks = [
         ('text', RichTextBlock()),
-        ('image', ImageChooserBlock())
+        ('image', GenericImageBlock())
     ]
 
 class GenericDoubleColumnBlock(StructBlock, GenericColumnBlock):
@@ -49,15 +59,6 @@ class GenericTripleColumnBlock(StructBlock, GenericColumnBlock):
 
     class Meta:
         template = "home/generic_triple_column_block.html"
-
-
-
-class GenericImageBlock(StructBlock):
-    image = ImageChooserBlock()
-
-    class Meta:
-        template = "home/generic_image_block.html"
-        icon = 'image'
 
 
 class EditorialPage(Page):
