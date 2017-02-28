@@ -1,0 +1,73 @@
+{%  extends "editorial/editorial-content.html" %}
+{% load wagtailcore_tags wagtailimages_tags menu_tags social_media_link_tags action_button header_content %}
+
+{% block main-content %}
+
+     <header id="header">
+        {% header_content page.header %}
+    </header>
+
+    <section>
+
+
+    {% if category %}
+    <h2>{{ category }}</h2>
+    {% endif %}
+    {% if tag %}
+    <h2>Posts tagged with '{{ tag }}'</h2>
+    {% endif %}
+
+    {% for rl in self.related_links.all %}
+        <p>{{ rl.title }}: <a href='{{ rl.link_page.url }}'>{{ rl.link_page }}</a></p>
+    {% endfor %}
+
+    {% if blogs %}
+        <ul class="list-unstyled the-loop">
+        {% for blog in blogs %}
+            <li class="blog-post-item{% if forloop.first and not category and not tag %} first-reset{% endif %}">
+                {% include 'blog/blog_post.html' with include_context="index_page" %}
+            </li>
+        {% endfor %}
+        </ul>
+
+        <ul class="pager">
+        {% if blogs.has_next %}
+          <li class="previous"><a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">&larr; Older</a></li>
+        {% endif %}
+        {% if blogs.has_previous %}
+          <li class="next"><a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">Newer &rarr;</a></li>
+        {% endif %}
+        </ul>
+
+    {% else %}
+        <p>There are currently no blog posts</p>
+    {% endif %}
+
+    </section>
+
+{% endblock %}
+
+{% block sidebar %}
+
+    <div id="sidebar">
+        <div class="inner">
+
+        <!-- Search -->
+            <section id="search" class="alt">
+                <form action="{% url 'search' %}" method="get">
+                    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                    {% comment %}<input type="submit" value="Search" class="button">{% endcomment %}
+                </form>
+             </section>
+
+            {% get_site_root as site_root %}
+            {% page_menu parent=site_root calling_page=self %}
+
+            <footer id="footer">
+                <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+            </footer>
+
+        </div>
+    </div>
+
+{% endblock %}

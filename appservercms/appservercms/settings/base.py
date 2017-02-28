@@ -81,6 +81,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'appservercms.urls'
 
+OPTIONS={
+    'libraries': {
+        'home_tags': 'home.tags',
+    },
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
