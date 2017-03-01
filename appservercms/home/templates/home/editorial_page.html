@@ -4,10 +4,6 @@
 
 {% block main-content %}
 
-    <header id="header">
-        {% header_content page.header %}
-    </header>
-
     {%  if page.banner_display %}
     <section id="banner">
     <div class="content">
@@ -64,7 +60,6 @@
     </section>
     {% endif %}
 
-
     {%  if page.generic_display %}
         <section>
         <header class="main">
@@ -79,27 +74,4 @@
 {% endblock %}
 
 
-{% block sidebar %}
 
-    <div id="sidebar">
-        <div class="inner">
-
-        <!-- Search -->
-            <section id="search" class="alt">
-                <form action="{% url 'search' %}" method="get">
-                    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-                    {% comment %}<input type="submit" value="Search" class="button">{% endcomment %}
-                </form>
-             </section>
-
-            {% get_site_root as site_root %}
-            {% page_menu parent=site_root calling_page=self %}
-
-            <footer id="footer">
-                <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-            </footer>
-
-        </div>
-    </div>
-
-{% endblock %}

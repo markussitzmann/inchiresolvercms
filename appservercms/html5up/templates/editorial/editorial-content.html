@@ -1,4 +1,6 @@
 {% extends "editorial/editorial-base.html" %}
+{% load wagtailcore_tags wagtailimages_tags menu_tags social_media_link_tags action_button header_content %}
+
 
 {% block content %}
 <div id="wrapper">
@@ -6,12 +8,38 @@
     {% block main %}
     <div id="main">
         <div class="inner">
+            {% block icon-header %}
+                <header id="header">
+                    {% header_content page.header %}
+                </header>
+            {% endblock %}
             {% block main-content %}{% endblock %}
         </div>
     </div>
     {% endblock %}
 
-    {% block sidebar %}{% endblock %}
+    {% block sidebar %}
+    <div id="sidebar">
+        <div class="inner">
+
+        <!-- Search -->
+            <section id="search" class="alt">
+                <form action="{% url 'search' %}" method="get">
+                    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                    {% comment %}<input type="submit" value="Search" class="button">{% endcomment %}
+                </form>
+             </section>
+
+            {% get_site_root as site_root %}
+            {% page_menu parent=site_root calling_page=self %}
+
+            <footer id="footer">
+                <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+            </footer>
+
+        </div>
+    </div>
+    {% endblock %}
 
 </div>
 {% endblock %}

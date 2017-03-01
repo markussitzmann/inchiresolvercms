@@ -42,11 +42,13 @@ def get_blog_context(context):
 
 
 class BlogIndexPage(Page):
+
     header = models.ForeignKey('home.EditorialHeader',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+')
+
 
     @property
     def blogs(self):
@@ -121,6 +123,11 @@ class BlogIndexPage(Page):
     class Meta:
         verbose_name = _('Blog index')
     subpage_types = ['blog.BlogPage']
+
+
+BlogIndexPage.content_panels = [
+    SnippetChooserPanel('header'),
+]
 
 
 @register_snippet
@@ -206,6 +213,13 @@ def limit_author_choices():
 
 
 class BlogPage(Page):
+
+    header = models.ForeignKey('home.EditorialHeader',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
+
     body = RichTextField(verbose_name=_('body'), blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField(
@@ -274,6 +288,7 @@ class BlogPage(Page):
 
 
 BlogPage.content_panels = [
+    SnippetChooserPanel('header'),
     FieldPanel('title', classname="full title"),
     MultiFieldPanel([
         FieldPanel('tags'),
