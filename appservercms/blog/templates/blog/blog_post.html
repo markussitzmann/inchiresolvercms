@@ -10,24 +10,35 @@
     <h2>{{ blog.title }}</h2>
 </a>
 
-{% if blog.date %}
-    <div class="meta date">
-        {{ blog.date|date:"F jS, Y" }}
-        {{ blog.author }}
-    </div>
-{% endif %}
+
 
 {% if include_context == "index_page" %}
-<div class="blog-intro">
-    {% image blog.header_image fill-300x300 as blog_image %}
-    <span class="image right"><img src="{{ blog_image.url }}" alt="" /></span>
-    {{ blog.body|richtext|truncatewords_html:100 }}
-    <a href="{% pageurl blog %}">Read the rest of this entry &raquo;</a>
+<div class="row">
+
+    {% if blog.header_image %}
+    <div class="4u 6u(medium) 12u$(small)">
+        {% image blog.header_image max-480x200 as blog_image %}
+        <a class="image fit" href="{% pageurl blog %}">
+        <span><img src="{{ blog_image.url }}" alt="" /></span>
+        </a>
+    </div>
+        <div class="8u 6u(medium) 12u$(small)">
+    {% else %}
+        <div class="12u$">
+    {% endif %}
+
+
+        {% include "blog/blog_meta.html" %}
+        {{ blog.body|richtext|truncatewords_html:100 }}
+        <a href="{% pageurl blog %}">Read the rest of this entry &raquo;</a>
+    </div>
+
 </div>
 {% else %}
-    {% image blog.header_image fill-1280x400 as blog_image %}
+    {% image blog.header_image fill-1900x500 as blog_image %}
     <span class="image fit"><img src="{{ blog_image.url }}" alt="" /></span>
-    <div class="blog-body">
+    {% include "blog/blog_meta.html" %}
+    <div>
         {{ blog.body|richtext }}
     </div>
 {% endif %}

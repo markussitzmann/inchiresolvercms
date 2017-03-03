@@ -4065,6 +4065,11 @@
 
 /* My stuff */
 
+.blog-intro div.left {
+	float: left;
+	margin-right: 1.5em;
+}
+
 .richtext-image.left {
 	margin-right: 1em;
 	max-width: 100%;
