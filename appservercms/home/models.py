@@ -18,9 +18,6 @@ from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
 
-
-
-
 class GenericImageBlock(StructBlock):
     template_type = ChoiceBlock(
         choices=[

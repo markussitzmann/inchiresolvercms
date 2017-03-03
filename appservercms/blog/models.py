@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Count, Q
+from django.db.models import Count, Q, CharField
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
@@ -48,7 +48,7 @@ class BlogIndexPage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+')
-
+    heading = CharField(max_length=255, blank=True, default="")
 
     @property
     def blogs(self):
@@ -102,6 +102,7 @@ class BlogIndexPage(Page):
             except EmptyPage:
                 blogs = paginator.page(paginator.num_pages)
 
+        context['heading'] = self.heading
         context['blogs'] = blogs
         context['category'] = category
         context['tag'] = tag
@@ -111,21 +112,13 @@ class BlogIndexPage(Page):
 
         return context
 
-    content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                SnippetChooserPanel('header'),
-            ],
-            heading="Header",
-        ),
-    ]
-
     class Meta:
         verbose_name = _('Blog index')
     subpage_types = ['blog.BlogPage']
 
 
-BlogIndexPage.content_panels = [
+BlogIndexPage.content_panels = Page.content_panels + [
+    FieldPanel('heading'),
     SnippetChooserPanel('header'),
 ]
 
@@ -275,6 +268,8 @@ class BlogPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(BlogPage, self).get_context(request, *args, **kwargs)
+        context['heading'] = self.get_parent().specific.heading
+        context['index'] = self.get_parent().specific
         context['blogs'] = self.get_blog_index().blogindexpage.blogs
         context = get_blog_context(context)
         context['COMMENTS_APP'] = COMMENTS_APP

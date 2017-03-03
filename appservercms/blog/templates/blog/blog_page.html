@@ -6,15 +6,16 @@
 
     <section>
         <header class="main">
-            <h1>Blog Roll</h1>
+            <a href="{% pageurl index %}"><h1>{{ heading }}</h1></header></a>
         </header>
-        <div class="content">
 
+        <div id="tag-category-headline">Post</div>
+
+        <div class="content">
         {% include 'blog/blog_post.html' with blog=self %}
         {% if COMMENTS_APP == 'django_comments_xtd' %}
             {% include 'blog/blog_post_comments_xtd.html' with blog=self %}
         {% endif %}
-
         </div>
 
     </section>

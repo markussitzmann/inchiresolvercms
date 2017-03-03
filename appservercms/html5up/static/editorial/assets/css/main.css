@@ -2826,11 +2826,11 @@
 					}
 
 						ul.pagination li > .page.active:hover {
-							background-color: #f67878;
+							background-color: #f6945d;
 						}
 
 						ul.pagination li > .page.active:active {
-							background-color: #f45c5c;
+							background-color: #f44710;
 						}
 
 				ul.pagination li:first-child {
@@ -3037,7 +3037,7 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: #f67878;
+				background-color: #f6945d;
 			}
 
 			input[type="submit"].special:active,
@@ -3045,7 +3045,7 @@
 			input[type="button"].special:active,
 			button.special:active,
 			.button.special:active {
-				background-color: #f45c5c;
+				background-color: #f44710;
 			}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,
@@ -4082,6 +4082,35 @@
 	max-width: 100%;
 	height: auto;
 	float: right;
+}
+
+.blog-post-item div.rich-text p {
+	margin: 0 0 1em 0;
+}
+
+.blog-post.meta {
+	text-transform: uppercase;
+	margin: 0 0 1.5em 0;
+	font-size: 75%;
+}
+
+.blog-post.meta span {
+	font-weight: bold;
+}
+
+.tags a.button.small {
+	font-size: 60%;
+	margin: 0 0.5em 0 0.5em;
+	height: 3.0em;
+	line-height: 3.0em;
+}
+
+#tag-category-headline {
+	text-transform: uppercase;
+	position: relative;
+	top: -1.0em;
+	font-size: 100%;
+	padding-top: 2em;
 }
 
 /*

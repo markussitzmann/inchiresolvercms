@@ -3,7 +3,6 @@
 
 <nav id="menu">
 
-
     <header class="major">
         <h2>Menu</h2>
     </header>
@@ -14,7 +13,14 @@
     <ul>
         <li></li>
         {% for menuitem in menuitems %}
-            <li><a href="{% pageurl menuitem %}">{{ menuitem.title }}</a></li>
+            {% if menuitem.show_dropdown %}
+                <li>
+                    <span class="opener">{{ menuitem.title }}</span>
+                    {%  page_menu_children menuitem %}
+                </li>
+            {% else %}
+                 <li><a href="{% pageurl menuitem %}">{{ menuitem.title }}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 

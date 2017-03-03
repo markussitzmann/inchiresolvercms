@@ -1,0 +1,21 @@
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+<div class="meta">
+    <div class="tags">
+        {% if blog.tags.all %}
+            Tags:
+                {% for tag in blog.tags.all %}
+                    <a class="button special small" href="{% url 'blog:tag' tag.slug %}/">{{ tag }}</a>{% if not forloop.last %}{% endif %}
+                {% endfor %}
+        {% endif %}
+    </div>
+    <div class="tags-and-comments">
+        <div id="comments" class="comments">
+        {% if COMMENTS_APP == 'django_comments_xtd' %}
+            {% include 'blog/blog_post_comments_xtd_link.html' with blog=blog %}
+        {% elif False %}
+            <a href="{% pageurl blog %}#disqus_thread">No Comments</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
