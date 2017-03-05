@@ -4065,6 +4065,13 @@
 
 /* My stuff */
 
+a h1:hover,
+a h2:hover,
+a h3:hover
+{
+	color: #f5793e;
+}
+
 .blog-intro div.left {
 	float: left;
 	margin-right: 1.5em;
@@ -4084,18 +4091,31 @@
 	float: right;
 }
 
+.rich-text p {
+	margin-bottom: 0.75em;
+}
+
 .blog-post-item div.rich-text p {
 	margin: 0 0 1em 0;
 }
 
 .blog-post.meta {
 	text-transform: uppercase;
-	margin: 0 0 1.5em 0;
+	margin: 0 0 2em 0;
 	font-size: 75%;
 }
 
 .blog-post.meta span {
 	font-weight: bold;
+}
+
+.tags {
+	margin: 2em 0 0 0;
+}
+
+.tags span {
+	text-transform: uppercase;
+	font-size: 75%;
 }
 
 .tags a.button.small {
@@ -4112,6 +4132,7 @@
 	font-size: 100%;
 	padding-top: 2em;
 }
+
 
 /*
 span.left {

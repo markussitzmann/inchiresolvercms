@@ -1,7 +1,7 @@
 {% load social_media_link_tags %}
 {% with header_content as header %}
 {% if header %}
-<a href="{{ header.url }}" class="logo"><strong>{{  header.title }} </strong>{{ header.subtitle }}</a>
+<a href="{{ header.url }}" class="logo" title="Open Home page"><strong>{{  header.title }} </strong>{{ header.subtitle }}</a>
 
 {% header_social_media_links header %}
 

@@ -1,12 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags static %}
 
-{% comment %}
-<a class="blog-post-link" href="{% pageurl blog %}">
-    <h2>{{ blog.title }}</h2>
-</a>
-{%  endcomment %}
-
-<a class="blog-post-link" href="{% pageurl blog %}">
+<a class="blog-post-link" title="Open post '{{ blog.title }}'" href="{% pageurl blog %}">
     <h2>{{ blog.title }}</h2>
 </a>
 
@@ -26,13 +20,13 @@
     {% endif %}
         {% include "blog/blog_post_meta_top.html" %}
         {{ blog.body|richtext|truncatewords_html:100 }}
-        <a href="{% pageurl blog %}">Read the rest of this entry &raquo;</a>
+        <div class="more-link"><a href="{% pageurl blog %}">Read the rest of this entry &raquo;</a></div>
     </div>
     {% include "blog/blog_post_meta_bottom.html" %}
 
 </div>
 {% else %}
-    {% image blog.header_image fill-1900x500 as blog_image %}
+    {% image blog.header_image fill-1920x640 as blog_image %}
     <span class="image fit"><img src="{{ blog_image.url }}" alt="" /></span>
     {% include "blog/blog_post_meta_top.html" %}
     <div>

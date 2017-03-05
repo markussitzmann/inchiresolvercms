@@ -3,14 +3,14 @@
 {% if blog.date %}
     <div class="blog-post meta date">
         Posted by <span>{{ blog.author }}</span> on <span>{{ blog.date|date:"F jS, Y" }}</span>
-    </div>
-    {% if blog.categories.all %}
-        <div>
-            Posted in
-                {% for cat in blog.categories.all %}
-                    <a href="{% url 'blog:category' cat.category.slug %}">{{ cat.category.name }}</a>{% if not forloop.last %}, {% endif %}
-                {% endfor %} |
-        </div>
-        {% endif %}
 
+    {% if blog.categories.all %}
+            in
+                {% for cat in blog.categories.all %}
+                    <span><a href="{% url 'blog:category' cat.category.slug %}">{{ cat.category.name }}</a></span>
+                    {% if not forloop.last %}, {% endif %}
+                    {% if not forloop.first and not forloop.last %} and {% endif %}
+                {% endfor %}
+        {% endif %}
+    </div>
 {% endif %}

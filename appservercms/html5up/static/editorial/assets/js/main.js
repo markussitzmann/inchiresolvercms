@@ -304,9 +304,9 @@
 
 		// My stuff
 
-		$( ".richtext-image" ).wrap( "<span class='image left'></span>" );
-		$( ".richtext-image" ).removeAttr('height');
-		$( ".richtext-image" ).removeAttr('width');
+		$(".richtext-image").wrap( "<span class='image left'></span>" );
+		$(".richtext-image").removeAttr('height');
+		$(".richtext-image").removeAttr('width');
 
 	});
 
